@@ -22,18 +22,15 @@ def gui():
     greeting1.pack()
     def test(e):
         text = e.widget.get("1.0", "end-1c")
-
-        new = len(text.split())
-        print(new)
-        if new > 3:
+        word_count = len(text.split())
+        print(word_count)
+        if word_count > 10:
             terminate()
 
     lable2 = Label(window, text="123CAPabc!",bg=bg, font = 'Verdana 14 italic').pack()
     entry1 = tk.Text(window, height =10, width=40, pady=40, padx=40)
     entry1.pack(pady=20)
     entry1.bind('<KeyRelease>', test)
-    #test = entry1.get("1.0", "end")
-    #b2 = Button(window, text = "Test",bg='lightgoldenrod' , font='Helvetica 12 italic', command = retrieve_input).pack()
     b1 = Button(window, text = "Capture",bg='lightgoldenrod' , font='Helvetica 12 italic', command = start)
     b1.pack(side=LEFT)
     b2 = Button(window, text = "Exit",bg='lightgoldenrod',font='Helvetica 12 italic', command = terminate).pack(side=RIGHT)
