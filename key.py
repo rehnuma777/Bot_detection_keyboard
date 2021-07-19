@@ -15,17 +15,21 @@ p = []
 r = []
 count = 0
 keydata = 'a'
+kp_dict= {}
+d = []
 #t = time.time()
 global key
 
 
 def write_headers():
-    write_row('Key pressed','Key released','Time' )
+    write_row('Key pressed','Key released','Time', 'Hold time', 'Consecutive Press and Release')
 
-def write_row(keypressed, keyreleased, timestamp):
+
+
+def write_row(keypressed, keyreleased, timestamp,Hold_time,press_release):
     with open(filename, 'a') as f:
         csv_writer = csv.writer(f)
-        csv_writer.writerow([keypressed,keyreleased,timestamp])
+        csv_writer.writerow([keypressed,keyreleased,timestamp,Hold_time, press_release])
 
 
 
@@ -34,22 +38,33 @@ def on_press(key):
         global t
         keydata = str(key)
         keydata = keydata.replace("'","")
-        counter_t = round(time.time()-t, 2)
-        write_row(keydata,'None', counter_t)
+        pressed_t = round(time.time()-t, 2)
+        kp_dict[keydata] = pressed_t
+        write_row(keydata,'None', pressed_t,'', '')
 
 
 
 def  on_release(key):
     global t
-    counter_time = 0
-    counter_time = round(time.time()-t, 2)
-    #r.append(counter_time)
-    write_row('None',key, counter_time)
+    keydata = str(key)
+    keydata = keydata.replace("'","")
+    released_time = 0
+    released_time = round(time.time()-t, 2)
+    r.append(released_time)
+    time_val = list(kp_dict.values())
+    zip_list = zip(list(kp_dict.values()),list(kp_dict.keys()))
+    recent_pressed = sorted(time_val,reverse=True)
+    up_up = recent_pressed[0]-recent_pressed[-1]
+    if key not in kp_dict:
+        press_time = kp_dict.pop(keydata)
+    write_row('None',key, released_time,str(released_time-press_time), released_time-recent_pressed[0])
 
-     #print('{0} released'.format(key))
+
     if key == keyboard.Key.esc:
         # Stop listener
         return False
+
+
 
 def start_program():
     global t
