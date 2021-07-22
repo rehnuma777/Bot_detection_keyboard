@@ -125,25 +125,24 @@ def parse_key_file():
     press_latency = [pressed_times[i + 1] - pressed_times[i] for i in range(len(pressed_times) - 1)]
 
     # Average/Max/Min hold times
-    avg_hold_time, max_hold_time, min_hold_time = statistics.mean(hold_times), max(hold_times), min(hold_times)
+    avg_hold_time, max_hold_time, min_hold_time, sd_hold_time = statistics.mean(hold_times), max(hold_times), min(hold_times), statistics.stdev(hold_times)
     # Average/Max/Min consecutive press release times
-    avg_cpr_time, max_cpr_time, min_cpr_time = statistics.mean(cpr_times), max(cpr_times), min(cpr_times)
+    avg_cpr_time, max_cpr_time, min_cpr_time, sd_cpr_time = statistics.mean(cpr_times), max(cpr_times), min(cpr_times), statistics.stdev(cpr_times)
     # Average/Max/Min release latency (upup) times
-    avg_released_time, max_released_time, min_released_time = statistics.mean(release_latency), max(
-        release_latency), min(release_latency)
+    avg_released_time, max_released_time, min_released_time, sd_released_time = statistics.mean(release_latency), max(
+        release_latency), min(release_latency), statistics.stdev(release_latency)
     # Average/Max/Min press latency (downdown) times
-    avg_press_time, max_press_time, min_press_time = statistics.mean(press_latency), max(press_latency), min(
-        press_latency)
+    avg_press_time, max_press_time, min_press_time, sd_press_time = statistics.mean(press_latency), max(press_latency), min(
+        press_latency), statistics.stdev(press_latency)
 
     # Row with the feature headers that are written to new CSV
-    header = ['Total time taken', 'Average hold time', 'Max hold time', 'Min hold time', 'Average CPR time',
-              'Max CPR time', 'Min CPR time', 'Average Release Latency', 'Max Release Latency', 'Min Release Latency',
-              'Average Press Latency', 'Max Press Latency', 'Min Press Latency']
+    header = ['Total time taken', 'Average hold time', 'Max hold time', 'Min hold time', 'SD hold time','Average CPR time',
+              'Max CPR time', 'Min CPR time','SD CPR time', 'Average Release Latency', 'Max Release Latency', 'Min Release Latency','SD Release Latency',
+              'Average Press Latency', 'Max Press Latency', 'Min Press Latency', 'SD Press Latency']
     #header2 = ['Time','Key Released', 'Key Pressed', 'Hold Time','Consecutive press and release', 'Press Latency','Release Latency']
     #feature_row2 = zip(Time, Key_pressed, Key_released, hold_times, cpr_times,pressed_times, released_times)
     # Values of the features that are written to new CSV
-    feature_row = [total_time_taken, avg_hold_time, max_hold_time, min_hold_time, avg_cpr_time, max_cpr_time, min_cpr_time,
-                   avg_released_time, max_released_time, min_released_time, avg_press_time, max_press_time, min_press_time]
+    feature_row = [total_time_taken, avg_hold_time, max_hold_time, min_hold_time, sd_hold_time, avg_cpr_time, max_cpr_time, min_cpr_time, sd_cpr_time,avg_released_time, max_released_time, min_released_time,sd_released_time, avg_press_time, max_press_time, min_press_time,sd_press_time]
 
 
     with open(new_filename, 'w') as file:
